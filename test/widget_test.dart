@@ -1,30 +1,30 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:weekend_wizard/main.dart';
+import 'package:weekend_wizard/widgets/home_page.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('$HomePage', () {
+    const String title = 'Some title';
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    testWidgets('should display correct content in app bar',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(home: HomePage(title: title)));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      // Assert the app bar title
+      expect(
+          find.descendant(of: find.byType(AppBar), matching: find.text(title)),
+          findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      // Assert the app bar actions
+      expect(find.byKey(const Key('brightness_toggle')), findsOneWidget);
+      expect(find.byKey(const Key('notifications')), findsOneWidget);
+    });
+
+    testWidgets('should display content', (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(home: HomePage(title: title)));
+
+      expect(find.text('Add some content here'), findsOneWidget);
+    });
   });
 }
