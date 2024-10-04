@@ -34,6 +34,35 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const MainNavigationBar(),
     );
+  }
+}
+
+class MainNavigationBar extends StatefulWidget {
+  const MainNavigationBar({super.key});
+
+  @override
+  State<MainNavigationBar> createState() => _mainNavigationBar();
+}
+
+class _mainNavigationBar extends State<MainNavigationBar> {
+  int currentPageIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return NavigationBar(
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+        selectedIndex: currentPageIndex,
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        destinations: const <Widget>[
+          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+          NavigationDestination(icon: Icon(Icons.archive), label: 'Archive'),
+          NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
+        ]);
   }
 }
